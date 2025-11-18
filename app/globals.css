@@ -1,0 +1,123 @@
+@import 'tailwindcss';
+
+@theme inline {
+  --font-sans: 'Inter', 'Inter Fallback', system-ui, -apple-system, sans-serif;
+  
+  /* Improved color palette with richer tones */
+  --color-background: #fafafa;
+  --color-foreground: #18181b;
+  --color-card: #ffffff;
+  --color-card-foreground: #18181b;
+  --color-popover: #ffffff;
+  --color-popover-foreground: #18181b;
+  --color-primary: #3b82f6;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #f1f5f9;
+  --color-secondary-foreground: #0f172a;
+  --color-muted: #f1f5f9;
+  --color-muted-foreground: #64748b;
+  --color-accent: #dbeafe;
+  --color-accent-foreground: #1e40af;
+  --color-destructive: #ef4444;
+  --color-destructive-foreground: #ffffff;
+  --color-border: #e2e8f0;
+  --color-input: #e2e8f0;
+  --color-ring: #3b82f6;
+  --radius: 0.75rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  @theme inline {
+    --color-background: #09090b;
+    --color-foreground: #fafafa;
+    --color-card: #18181b;
+    --color-card-foreground: #fafafa;
+    --color-popover: #18181b;
+    --color-popover-foreground: #fafafa;
+    --color-primary: #60a5fa;
+    --color-primary-foreground: #1e3a8a;
+    --color-secondary: #27272a;
+    --color-secondary-foreground: #fafafa;
+    --color-muted: #27272a;
+    --color-muted-foreground: #a1a1aa;
+    --color-accent: #1e3a8a;
+    --color-accent-foreground: #dbeafe;
+    --color-destructive: #ef4444;
+    --color-destructive-foreground: #fafafa;
+    --color-border: #27272a;
+    --color-input: #27272a;
+    --color-ring: #60a5fa;
+  }
+}
+
+/* Refined high contrast themes for better aesthetics */
+[data-theme="high-contrast"] {
+  --color-background: #ffffff;
+  --color-foreground: #000000;
+  --color-card: #ffffff;
+  --color-card-foreground: #000000;
+  --color-popover: #ffffff;
+  --color-popover-foreground: #000000;
+  --color-primary: #0052cc;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #f0f0f0;
+  --color-secondary-foreground: #000000;
+  --color-muted: #e0e0e0;
+  /* Changed muted-foreground to pure black for better contrast */
+  --color-muted-foreground: #000000;
+  --color-accent: #fff4cc;
+  --color-accent-foreground: #000000;
+  --color-destructive: #cc0000;
+  --color-destructive-foreground: #ffffff;
+  /* Changed border and input to lighter gray for better button outline visibility */
+  --color-border: #666666;
+  --color-input: #666666;
+  --color-ring: #0052cc;
+}
+
+[data-theme="dark-high-contrast"] {
+  --color-background: #0a0a0a;
+  --color-foreground: #ffffff;
+  --color-card: #1a1a1a;
+  --color-card-foreground: #ffffff;
+  --color-popover: #1a1a1a;
+  --color-popover-foreground: #ffffff;
+  --color-primary: #4da6ff;
+  --color-primary-foreground: #0a0a0a;
+  --color-secondary: #2a2a2a;
+  --color-secondary-foreground: #ffffff;
+  --color-muted: #333333;
+  --color-muted-foreground: #e8e8e8;
+  --color-accent: #ffeb99;
+  --color-accent-foreground: #0a0a0a;
+  --color-destructive: #ff4444;
+  --color-destructive-foreground: #ffffff;
+  --color-border: #666666;
+  --color-input: #666666;
+  --color-ring: #4da6ff;
+}
+
+* {
+  border-color: var(--color-border);
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+}
+
+/* Add smooth transitions and animations */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out;
+}
