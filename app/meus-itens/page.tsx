@@ -42,7 +42,7 @@ export default async function MeusItensPage() {
 
   return (
     <div className="min-h-screen">
-      <Header />
+      <Header user={user} />
       <div className="container mx-auto px-4 py-12">
         <div className="mb-8 flex items-center justify-between">
           <div>

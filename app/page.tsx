@@ -9,6 +9,9 @@ import { createClient } from "@/lib/supabase/server";
 export default async function Home() {
   const supabase = await createClient();
   
+  // Fetch user data
+  const { data: { user } } = await supabase.auth.getUser();
+  
   // Fetch recent lost items with category names
   const { data: lostItems } = await supabase
     .from('lost_items')
@@ -22,7 +25,7 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen">
-      <Header />
+      <Header user={user} />
       
       <section className="relative overflow-hidden border-b bg-gradient-to-br from-primary/10 via-accent/20 to-background py-24 md:py-32">
         <div className="absolute inset-0 bg-grid-slate-100 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))]" />

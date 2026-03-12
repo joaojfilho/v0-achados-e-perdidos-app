@@ -35,7 +35,7 @@ export default async function LostItemDetailPage({
 
   return (
     <div className="min-h-screen">
-      <Header />
+      <Header user={user} />
       <div className="container mx-auto max-w-4xl px-4 py-12">
         <div className="grid gap-8 lg:grid-cols-2">
           {/* Image Section */}

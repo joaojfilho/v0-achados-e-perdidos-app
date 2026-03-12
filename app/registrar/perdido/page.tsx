@@ -19,7 +19,7 @@ export default async function RegistrarPerdidoPage() {
 
   return (
     <div className="min-h-screen">
-      <Header />
+      <Header user={user} />
       <div className="container mx-auto max-w-2xl px-4 py-12">
         <div className="mb-8">
           <h1 className="mb-2 text-3xl font-bold">Registrar Item Perdido</h1>

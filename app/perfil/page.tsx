@@ -24,7 +24,7 @@ export default async function PerfilPage() {
 
   return (
     <div className="min-h-screen">
-      <Header />
+      <Header user={user} />
       <div className="container mx-auto max-w-2xl px-4 py-12">
         <div className="mb-8">
           <h1 className="text-3xl font-bold">Meu Perfil</h1>

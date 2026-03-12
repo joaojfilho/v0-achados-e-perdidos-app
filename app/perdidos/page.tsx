@@ -7,6 +7,9 @@ import { createClient } from "@/lib/supabase/server";
 export default async function PerdidosPage() {
   const supabase = await createClient();
   
+  // Fetch user
+  const { data: { user } } = await supabase.auth.getUser();
+  
   // Fetch all lost items
   const { data: lostItems } = await supabase
     .from('lost_items')
@@ -19,7 +22,7 @@ export default async function PerdidosPage() {
 
   return (
     <div className="min-h-screen">
-      <Header />
+      <Header user={user} />
       <div className="container mx-auto px-4 py-12">
         <div className="mb-8">
           <h1 className="mb-2 text-3xl font-bold">Itens Perdidos</h1>
