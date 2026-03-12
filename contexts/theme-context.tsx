@@ -9,14 +9,15 @@ type ThemeContextType = {
   setTheme: (theme: Theme) => void
 }
 
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
+const ThemeContext = createContext<ThemeContextType>({
+  theme: 'default',
+  setTheme: () => {},
+})
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setThemeState] = useState<Theme>('default')
-  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    setMounted(true)
     const savedTheme = localStorage.getItem('accessibility-theme') as Theme
     if (savedTheme) {
       setThemeState(savedTheme)
@@ -32,15 +33,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <ThemeContext.Provider value={{ theme, setTheme }}>
-      {mounted ? children : <div style={{ visibility: 'hidden' }}>{children}</div>}
+      {children}
     </ThemeContext.Provider>
   )
 }
 
 export function useTheme() {
-  const context = useContext(ThemeContext)
-  if (context === undefined) {
-    throw new Error('useTheme must be used within a ThemeProvider')
-  }
-  return context
+  return useContext(ThemeContext)
 }
