@@ -10,15 +10,15 @@ import type { User as SupabaseUser } from '@supabase/supabase-js';
 
 export function Header() {
   const [user, setUser] = useState<SupabaseUser | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const supabase = createClient();
     
     const getUser = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       setUser(user);
-      setLoading(false);
     };
 
     getUser();
@@ -51,9 +51,9 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <AccessibilityMenu />
+          {mounted && <AccessibilityMenu />}
           
-          {!loading && (
+          {mounted && (
             user ? (
               <>
                 <Button asChild>
