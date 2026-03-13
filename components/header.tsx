@@ -1,12 +1,34 @@
+'use client'
+
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Search, Plus, User } from 'lucide-react';
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/supabase/client";
 import { AccessibilityMenu } from '@/components/accessibility-menu';
+import { useEffect, useState } from 'react';
+import type { User as SupabaseUser } from '@supabase/supabase-js';
 
-export async function Header() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+export function Header() {
+  const [user, setUser] = useState<SupabaseUser | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const supabase = createClient();
+    
+    const getUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+      setLoading(false);
+    };
+
+    getUser();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -31,29 +53,31 @@ export async function Header() {
         <div className="flex items-center gap-2">
           <AccessibilityMenu />
           
-          {user ? (
-            <>
-              <Button asChild>
-                <Link href="/registrar/perdido">
-                  <Plus className="mr-2 h-4 w-4" />
-                  Registrar
-                </Link>
-              </Button>
-              <Button variant="outline" size="icon" asChild>
-                <Link href="/perfil">
-                  <User className="h-4 w-4" />
-                </Link>
-              </Button>
-            </>
-          ) : (
-            <>
-              <Button variant="outline" asChild>
-                <Link href="/auth/login">Entrar</Link>
-              </Button>
-              <Button asChild>
-                <Link href="/auth/cadastro">Cadastrar</Link>
-              </Button>
-            </>
+          {!loading && (
+            user ? (
+              <>
+                <Button asChild>
+                  <Link href="/registrar/perdido">
+                    <Plus className="mr-2 h-4 w-4" />
+                    Registrar
+                  </Link>
+                </Button>
+                <Button variant="outline" size="icon" asChild>
+                  <Link href="/perfil">
+                    <User className="h-4 w-4" />
+                  </Link>
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button variant="outline" asChild>
+                  <Link href="/auth/login">Entrar</Link>
+                </Button>
+                <Button asChild>
+                  <Link href="/auth/cadastro">Cadastrar</Link>
+                </Button>
+              </>
+            )
           )}
         </div>
       </div>
