@@ -14,15 +14,17 @@ export function Header() {
 
   useEffect(() => {
     setMounted(true);
+    console.log("[v0] Header mounted, creating supabase client");
     const supabase = createClient();
     
     const getUser = async () => {
       try {
-        const { data: { user } } = await supabase.auth.getUser();
+        console.log("[v0] Fetching user...");
+        const { data: { user }, error } = await supabase.auth.getUser();
+        console.log("[v0] getUser result - user:", !!user, "error:", error);
         setUser(user);
       } catch (error) {
-        // Silently handle network errors to avoid breaking the UI
-        console.error('Failed to get user:', error);
+        console.error('[v0] Failed to get user (catch block):', error);
       }
     };
 
