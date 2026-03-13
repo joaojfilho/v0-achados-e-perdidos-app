@@ -17,8 +17,13 @@ export function Header() {
     const supabase = createClient();
     
     const getUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      setUser(user);
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        setUser(user);
+      } catch (error) {
+        // Silently handle network errors to avoid breaking the UI
+        console.error('Failed to get user:', error);
+      }
     };
 
     getUser();

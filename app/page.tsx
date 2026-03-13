@@ -7,18 +7,27 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function Home() {
-  const supabase = await createClient();
+  let lostItems = null;
   
-  // Fetch recent lost items with category names
-  const { data: lostItems } = await supabase
-    .from('lost_items')
-    .select(`
-      *,
-      categories:categoria_id (nome)
-    `)
-    .eq('status', 'perdido')
-    .order('created_at', { ascending: false })
-    .limit(6);
+  try {
+    const supabase = await createClient();
+    
+    // Fetch recent lost items with category names
+    const { data } = await supabase
+      .from('lost_items')
+      .select(`
+        *,
+        categories:categoria_id (nome)
+      `)
+      .eq('status', 'perdido')
+      .order('created_at', { ascending: false })
+      .limit(6);
+    
+    lostItems = data;
+  } catch (error) {
+    // Silently handle errors, page will show empty state
+    console.error('Failed to fetch lost items:', error);
+  }
 
   return (
     <div className="min-h-screen">
