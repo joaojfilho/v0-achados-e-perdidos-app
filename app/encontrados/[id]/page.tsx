@@ -16,9 +16,11 @@ export default async function FoundItemDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+  console.log("[v0] Buscando item encontrado com ID:", id);
+  
   const supabase = await createClient();
   
-  const { data: item } = await supabase
+  const { data: item, error } = await supabase
     .from('found_items')
     .select(`
       *,
@@ -28,7 +30,10 @@ export default async function FoundItemDetailPage({
     .eq('id', id)
     .single();
 
-  if (!item) {
+  console.log("[v0] Resultado da busca:", { item, error });
+
+  if (error || !item) {
+    console.log("[v0] Item não encontrado, erro:", error);
     notFound();
   }
 
