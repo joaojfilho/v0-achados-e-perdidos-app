@@ -22,11 +22,7 @@ export default async function FoundItemDetailPage({
   
   const { data: item, error } = await supabase
     .from('found_items')
-    .select(`
-      *,
-      categories:categoria_id (nome),
-      profiles:user_id (nome, telefone)
-    `)
+    .select('*')
     .eq('id', id)
     .single();
 
@@ -35,6 +31,28 @@ export default async function FoundItemDetailPage({
   if (error || !item) {
     console.log("[v0] Item não encontrado, erro:", error);
     notFound();
+  }
+
+  // Fetch category separately
+  let category = null;
+  if (item.categoria_id) {
+    const { data: cat } = await supabase
+      .from('categories')
+      .select('nome')
+      .eq('id', item.categoria_id)
+      .single();
+    category = cat;
+  }
+
+  // Fetch user profile separately
+  let userProfile = null;
+  if (item.user_id) {
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('nome, telefone')
+      .eq('id', item.user_id)
+      .single();
+    userProfile = profile;
   }
 
   const { data: { user } } = await supabase.auth.getUser();
@@ -108,7 +126,7 @@ export default async function FoundItemDetailPage({
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">Categoria</p>
-                    <p className="font-medium">{item.categories?.nome || 'Outros'}</p>
+                    <p className="font-medium">{category?.nome || 'Outros'}</p>
                   </div>
                 </div>
               </CardContent>
@@ -120,12 +138,12 @@ export default async function FoundItemDetailPage({
                 <div className="space-y-3">
                   <div className="flex items-center gap-3">
                     <User className="h-4 w-4 text-muted-foreground" />
-                    <span>{item.profiles?.nome || 'Usuário'}</span>
+                    <span>{userProfile?.nome || 'Usuário'}</span>
                   </div>
-                  {item.profiles?.telefone && (
+                  {userProfile?.telefone && (
                     <div className="flex items-center gap-3">
                       <Mail className="h-4 w-4 text-muted-foreground" />
-                      <span>{item.profiles.telefone}</span>
+                      <span>{userProfile.telefone}</span>
                     </div>
                   )}
                 </div>
