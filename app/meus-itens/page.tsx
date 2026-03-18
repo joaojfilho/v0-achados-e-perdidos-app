@@ -1,4 +1,5 @@
 import { Header } from "@/components/header";
+import { AuthNav } from "@/components/auth-nav";
 import { Button } from "@/components/ui/button";
 import { ItemCard } from "@/components/item-card";
 import { Plus } from 'lucide-react';
@@ -42,7 +43,9 @@ export default async function MeusItensPage() {
 
   return (
     <div className="min-h-screen">
-      <Header />
+      <Header>
+        <AuthNav />
+      </Header>
       <div className="container mx-auto px-4 py-12">
         <div className="mb-8 flex items-center justify-between">
           <div>

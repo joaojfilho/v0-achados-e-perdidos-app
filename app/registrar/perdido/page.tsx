@@ -1,4 +1,5 @@
 import { Header } from "@/components/header";
+import { AuthNav } from "@/components/auth-nav";
 import { LostItemForm } from "@/components/lost-item-form";
 import { redirect } from 'next/navigation';
 import { createClient } from "@/lib/supabase/server";
@@ -19,7 +20,9 @@ export default async function RegistrarPerdidoPage() {
 
   return (
     <div className="min-h-screen">
-      <Header />
+      <Header>
+        <AuthNav />
+      </Header>
       <div className="container mx-auto max-w-2xl px-4 py-12">
         <div className="mb-8">
           <h1 className="mb-2 text-3xl font-bold">Registrar Item Perdido</h1>

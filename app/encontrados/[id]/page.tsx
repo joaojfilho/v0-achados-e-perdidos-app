@@ -1,4 +1,5 @@
 import { Header } from "@/components/header";
+import { AuthNav } from "@/components/auth-nav";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -34,7 +35,9 @@ export default async function FoundItemDetailPage({
 
   return (
     <div className="min-h-screen">
-      <Header />
+      <Header>
+        <AuthNav />
+      </Header>
       <div className="container mx-auto max-w-4xl px-4 py-12">
         <div className="grid gap-8 lg:grid-cols-2">
           {/* Image Section */}

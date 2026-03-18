@@ -1,4 +1,5 @@
 import { Header } from "@/components/header";
+import { AuthNav } from "@/components/auth-nav";
 import { ItemCard } from "@/components/item-card";
 import { Input } from "@/components/ui/input";
 import { Search } from 'lucide-react';
@@ -19,7 +20,9 @@ export default async function EncontradosPage() {
 
   return (
     <div className="min-h-screen">
-      <Header />
+      <Header>
+        <AuthNav />
+      </Header>
       <div className="container mx-auto px-4 py-12">
         <div className="mb-8">
           <h1 className="mb-2 text-3xl font-bold">Itens Encontrados</h1>

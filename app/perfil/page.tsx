@@ -1,4 +1,5 @@
 import { Header } from "@/components/header";
+import { AuthNav } from "@/components/auth-nav";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -24,7 +25,9 @@ export default async function PerfilPage() {
 
   return (
     <div className="min-h-screen">
-      <Header />
+      <Header>
+        <AuthNav />
+      </Header>
       <div className="container mx-auto max-w-2xl px-4 py-12">
         <div className="mb-8">
           <h1 className="text-3xl font-bold">Meu Perfil</h1>
