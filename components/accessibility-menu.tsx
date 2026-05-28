@@ -13,13 +13,27 @@ import { Accessibility, Check } from 'lucide-react'
 import { useTheme } from '@/contexts/theme-context'
 
 export function AccessibilityMenu() {
-  const { theme, setTheme } = useTheme()
+  const { theme, setTheme, mounted } = useTheme()
 
   const themes = [
     { value: 'default' as const, label: 'Padrão', description: 'Design moderno e colorido' },
     { value: 'high-contrast' as const, label: 'Alto Contraste Claro', description: 'Melhor legibilidade em fundo claro' },
     { value: 'dark-high-contrast' as const, label: 'Alto Contraste Escuro', description: 'Melhor legibilidade em fundo escuro' },
   ]
+
+  if (!mounted) {
+    return (
+      <Button 
+        variant="ghost" 
+        size="icon"
+        className="h-9 w-9 transition-colors hover:bg-primary/10 hover:text-primary"
+        aria-label="Opções de acessibilidade"
+        disabled
+      >
+        <Accessibility className="h-5 w-5" />
+      </Button>
+    )
+  }
 
   return (
     <DropdownMenu>

@@ -7,6 +7,7 @@ type Theme = 'default' | 'high-contrast' | 'dark-high-contrast'
 type ThemeContextType = {
   theme: Theme
   setTheme: (theme: Theme) => void
+  mounted: boolean
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
@@ -30,12 +31,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     document.documentElement.setAttribute('data-theme', newTheme)
   }
 
-  if (!mounted) {
-    return <>{children}</>
-  }
-
   return (
-    <ThemeContext.Provider value={{ theme, setTheme }}>
+    <ThemeContext.Provider value={{ theme, setTheme, mounted }}>
       {children}
     </ThemeContext.Provider>
   )
