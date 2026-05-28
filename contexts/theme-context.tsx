@@ -30,10 +30,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     document.documentElement.setAttribute('data-theme', newTheme)
   }
 
-  if (!mounted) {
-    return <>{children}</>
-  }
-
+  // Sempre fornece o contexto, mesmo antes da montagem
+  // Isso evita erros de SSR quando componentes usam useTheme
   return (
     <ThemeContext.Provider value={{ theme, setTheme }}>
       {children}
