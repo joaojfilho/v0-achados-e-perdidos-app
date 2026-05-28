@@ -13,10 +13,8 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setThemeState] = useState<Theme>('default')
-  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    setMounted(true)
     const savedTheme = localStorage.getItem('accessibility-theme') as Theme
     if (savedTheme) {
       setThemeState(savedTheme)
@@ -28,10 +26,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     setThemeState(newTheme)
     localStorage.setItem('accessibility-theme', newTheme)
     document.documentElement.setAttribute('data-theme', newTheme)
-  }
-
-  if (!mounted) {
-    return <>{children}</>
   }
 
   return (
