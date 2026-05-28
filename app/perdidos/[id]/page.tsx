@@ -7,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { notFound } from 'next/navigation';
+import { ContactDialog } from "@/components/contact-dialog";
 
 export default async function LostItemDetailPage({
   params,
@@ -133,7 +134,13 @@ export default async function LostItemDetailPage({
                   )}
                 </div>
                 {!isOwner && (
-                  <Button className="mt-4 w-full">Entrar em Contato</Button>
+                  <ContactDialog
+                    itemId={item.id}
+                    itemTitle={item.titulo}
+                    itemType="lost"
+                  >
+                    <Button className="mt-4 w-full">Entrar em Contato</Button>
+                  </ContactDialog>
                 )}
               </CardContent>
             </Card>
