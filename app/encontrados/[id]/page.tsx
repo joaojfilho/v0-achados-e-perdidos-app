@@ -6,6 +6,7 @@ import { Calendar, MapPin, User, Mail } from 'lucide-react';
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/server";
 import { notFound } from 'next/navigation';
+import { ContactButton } from "@/components/contact-button";
 
 export default async function FoundItemDetailPage({
   params,
@@ -126,7 +127,13 @@ export default async function FoundItemDetailPage({
                   )}
                 </div>
                 {!isOwner && (
-                  <Button className="mt-4 w-full">Este é meu item!</Button>
+                  <ContactButton
+                    itemId={id}
+                    itemType="found"
+                    itemTitle={item.titulo}
+                    ownerName={profile?.nome || 'quem encontrou'}
+                    className="mt-4 w-full"
+                  />
                 )}
               </CardContent>
             </Card>
