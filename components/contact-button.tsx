@@ -36,6 +36,8 @@ export function ContactButton({
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  console.log("[v0] ContactButton rendered, open state:", open);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
