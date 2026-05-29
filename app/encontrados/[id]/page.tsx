@@ -6,6 +6,7 @@ import { Calendar, MapPin, User, Mail } from 'lucide-react';
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/server";
 import { notFound } from 'next/navigation';
+import { ContactButton } from "@/components/contact-button";
 
 export default async function FoundItemDetailPage({
   params,
@@ -19,8 +20,7 @@ export default async function FoundItemDetailPage({
     .from('found_items')
     .select(`
       *,
-      categories:categoria_id (nome),
-      profiles:user_id (nome, telefone)
+      categories:categoria_id (nome)
     `)
     .eq('id', id)
     .single();
@@ -28,6 +28,13 @@ export default async function FoundItemDetailPage({
   if (!item) {
     notFound();
   }
+
+  // Fetch profile separately since user_id references auth.users, not profiles directly
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('nome, telefone')
+    .eq('id', item.user_id)
+    .single();
 
   const { data: { user } } = await supabase.auth.getUser();
   const isOwner = user?.id === item.user_id;
@@ -110,17 +117,23 @@ export default async function FoundItemDetailPage({
                 <div className="space-y-3">
                   <div className="flex items-center gap-3">
                     <User className="h-4 w-4 text-muted-foreground" />
-                    <span>{item.profiles?.nome || 'Usuário'}</span>
+                    <span>{profile?.nome || 'Usuário'}</span>
                   </div>
-                  {item.profiles?.telefone && (
+                  {profile?.telefone && (
                     <div className="flex items-center gap-3">
                       <Mail className="h-4 w-4 text-muted-foreground" />
-                      <span>{item.profiles.telefone}</span>
+                      <span>{profile.telefone}</span>
                     </div>
                   )}
                 </div>
                 {!isOwner && (
-                  <Button className="mt-4 w-full">Este é meu item!</Button>
+                  <ContactButton
+                    itemId={id}
+                    itemType="found"
+                    itemTitle={item.titulo}
+                    ownerName={profile?.nome || 'quem encontrou'}
+                    className="mt-4 w-full"
+                  />
                 )}
               </CardContent>
             </Card>
