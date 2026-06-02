@@ -26,9 +26,15 @@ export default function EsqueciSenhaPage() {
     setIsLoading(true);
     setError(null);
 
+    const baseUrl = 
+      process.env.NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL ||
+      (process.env.NEXT_PUBLIC_VERCEL_URL 
+        ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` 
+        : window.location.origin);
+
     try {
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/auth/redefinir-senha`,
+        redirectTo: `${baseUrl}/auth/redefinir-senha`,
       });
       if (error) throw error;
       setSuccess(true);
