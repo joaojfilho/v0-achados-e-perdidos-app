@@ -19,11 +19,21 @@ export default async function FoundItemDetailPage({
     .from('found_items')
     .select(`
       *,
-      categories:categoria_id (nome),
-      profiles:user_id (nome, telefone)
+      categories:categoria_id (nome)
     `)
     .eq('id', id)
     .single();
+  
+  // Fetch profile data separately if user_id exists
+  let profile = null;
+  if (item?.user_id) {
+    const { data: profileData } = await supabase
+      .from('profiles')
+      .select('nome, telefone')
+      .eq('id', item.user_id)
+      .single();
+    profile = profileData;
+  }
 
   if (!item) {
     notFound();
@@ -110,12 +120,12 @@ export default async function FoundItemDetailPage({
                 <div className="space-y-3">
                   <div className="flex items-center gap-3">
                     <User className="h-4 w-4 text-muted-foreground" />
-                    <span>{item.profiles?.nome || 'Usuário'}</span>
+                    <span>{profile?.nome || 'Usuário'}</span>
                   </div>
-                  {item.profiles?.telefone && (
+                  {profile?.telefone && (
                     <div className="flex items-center gap-3">
                       <Mail className="h-4 w-4 text-muted-foreground" />
-                      <span>{item.profiles.telefone}</span>
+                      <span>{profile.telefone}</span>
                     </div>
                   )}
                 </div>
