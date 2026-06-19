@@ -125,7 +125,7 @@ export default function CadastroPage() {
                 </div>
                 {error && <p className="text-sm text-destructive">{error}</p>}
                 <Button type="submit" className="w-full" disabled={isLoading}>
-                  {isLoading ? "Criando contaa..." : "Criar conta"}
+                  {isLoading ? "Criando contaa.." : "Criar conta"}
                 </Button>
               </div>
               <div className="mt-4 text-center text-sm">
